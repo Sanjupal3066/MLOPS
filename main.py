@@ -46,6 +46,6 @@ trained_model = model.fit(X_train_norm, y_train,
 
 final_acc=int(trained_model.history['accuracy'][-1]*100)
 
-f = open("demofile3.txt", "w")
+f = open("accuracy.txt", "w")
 f.write(str(final_acc))
 f.close()
