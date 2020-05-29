@@ -1,3 +1,6 @@
+filt=64
+epoch=1
+unit=100
 from keras.datasets import fashion_mnist
 from keras.utils.np_utils import to_categorical
 from keras.layers import Convolution2D
@@ -8,9 +11,6 @@ from keras.models import Sequential
 
 (X_train, y_train), (X_test, y_test) = fashion_mnist.load_data()
 
-filt=64
-epoch=1
-unit=100
 
 X_train = X_train.reshape((-1, 28, 28, 1)).astype('float32')
 X_test = X_test.reshape((-1, 28, 28, 1)).astype('float32')
