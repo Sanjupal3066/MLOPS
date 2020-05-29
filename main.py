@@ -18,7 +18,7 @@ def data():
 	y_test = to_categorical(y_test)
 	X_train_norm = X_train / 255
 	X_test_norm = X_test / 255
-return X_train_norm,y_train,X_test_norm,y_test
+	return X_train_norm,y_train,X_test_norm,y_test
 
 def create_model(f,e,u):
 	model = Sequential()
@@ -33,7 +33,7 @@ def create_model(f,e,u):
 	unit=int(unit/2)
 	model.add(Dense(10, activation='softmax'))
 	h = model.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['accuracy'])
-return model
+	return model
 
 X_train_norm,y_train,X_test_norm,y_test = data()
 model=create_model(filt,epoch,unit)
