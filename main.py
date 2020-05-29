@@ -21,23 +21,23 @@ def data():
 	X_test_norm = X_test / 255
 	return X_train_norm,y_train,X_test_norm,y_test
 
-def create_model(f,e,u):
+def create_model(f,u):
 	model = Sequential()
-	model.add(Convolution2D(filters=filt, kernel_size=(3, 3), activation='relu', input_shape=(28, 28, 1)))
-	filt=int(filt/2)
+	model.add(Convolution2D(filters=f, kernel_size=(3, 3), activation='relu', input_shape=(28, 28, 1)))
+	f=int(f/2)
 	model.add(MaxPooling2D(pool_size=(2, 2)))
-	model.add(Convolution2D(filters=filt, kernel_size=(3, 3), activation='relu'))
-	filt=int(filt/2)
+	model.add(Convolution2D(filters=f, kernel_size=(3, 3), activation='relu'))
+	f=int(f/2)
 	model.add(MaxPooling2D(pool_size=(2, 2)))
 	model.add(Flatten())
-	model.add(Dense(units=unit, activation='relu'))
-	unit=int(unit/2)
+	model.add(Dense(units=u, activation='relu'))
+	u=int(u/2)
 	model.add(Dense(10, activation='softmax'))
 	h = model.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['accuracy'])
 	return model
 
 X_train_norm,y_train,X_test_norm,y_test = data()
-model=create_model(filt,epoch,unit)
+model=create_model(filt,unit)
 
 trained_model = model.fit(X_train_norm, y_train,
          epochs=epoch,batch_size=32,
