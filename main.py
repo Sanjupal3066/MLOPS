@@ -1,6 +1,3 @@
-filt=64
-epoch=1
-unit=100
 from keras.datasets import fashion_mnist
 from keras.utils.np_utils import to_categorical
 from keras.layers import Convolution2D
@@ -9,30 +6,37 @@ from keras.layers import Flatten
 from keras.layers import Dense
 from keras.models import Sequential
 
-(X_train, y_train), (X_test, y_test) = fashion_mnist.load_data()
+filt=64
+epoch=1
+unit=100
 
+def data():
+	(X_train, y_train), (X_test, y_test) = fashion_mnist.load_data()
+	X_train = X_train.reshape((-1, 28, 28, 1)).astype('float32')
+	X_test = X_test.reshape((-1, 28, 28, 1)).astype('float32')
+	y_train = to_categorical(y_train)
+	y_test = to_categorical(y_test)
+	X_train_norm = X_train / 255
+	X_test_norm = X_test / 255
+return X_train_norm,y_train,X_test_norm,y_test
 
-X_train = X_train.reshape((-1, 28, 28, 1)).astype('float32')
-X_test = X_test.reshape((-1, 28, 28, 1)).astype('float32')
+def create_model(f,e,u):
+	model = Sequential()
+	model.add(Convolution2D(filters=filt, kernel_size=(3, 3), activation='relu', input_shape=(28, 28, 1)))
+	filt=int(filt/2)
+	model.add(MaxPooling2D(pool_size=(2, 2)))
+	model.add(Convolution2D(filters=filt, kernel_size=(3, 3), activation='relu'))
+	filt=int(filt/2)
+	model.add(MaxPooling2D(pool_size=(2, 2)))
+	model.add(Flatten())
+	model.add(Dense(units=unit, activation='relu'))
+	unit=int(unit/2)
+	model.add(Dense(10, activation='softmax'))
+	h = model.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['accuracy'])
+return model
 
-y_train = to_categorical(y_train)
-y_test = to_categorical(y_test)
-
-X_train_norm = X_train / 255
-X_test_norm = X_test / 255
-
-model = Sequential()
-model.add(Convolution2D(filters=filt, kernel_size=(3, 3), activation='relu', input_shape=(28, 28, 1)))
-filt=int(filt/2)
-model.add(MaxPooling2D(pool_size=(2, 2)))
-model.add(Convolution2D(filters=filt, kernel_size=(3, 3), activation='relu'))
-filt=int(filt/2)
-model.add(MaxPooling2D(pool_size=(2, 2)))
-model.add(Flatten())
-model.add(Dense(units=unit, activation='relu'))
-unit=int(unit/2)
-model.add(Dense(10, activation='softmax'))
-h = model.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['accuracy'])
+X_train_norm,y_train,X_test_norm,y_test = data()
+model=create_model(filt,epoch,unit)
 
 trained_model = model.fit(X_train, y_train,
          epochs=epoch,batch_size=32,
@@ -40,13 +44,6 @@ trained_model = model.fit(X_train, y_train,
           )
 
 final_acc=int(trained_model.history['accuracy'][-1]*100)
-
-
-#final_acc
-
-loss , acc = model.evaluate(X_test, y_test)
-
-
 
 f = open("demofile3.txt", "w")
 f.write(str(final_acc))
