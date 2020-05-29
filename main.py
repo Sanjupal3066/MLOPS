@@ -6,6 +6,7 @@ from keras.layers import Flatten
 from keras.layers import Dense
 from keras.models import Sequential
 
+
 filt=64
 epoch=1
 unit=100
@@ -38,9 +39,9 @@ def create_model(f,e,u):
 X_train_norm,y_train,X_test_norm,y_test = data()
 model=create_model(filt,epoch,unit)
 
-trained_model = model.fit(X_train, y_train,
+trained_model = model.fit(X_train_norm, y_train,
          epochs=epoch,batch_size=32,
-          validation_data=(X_test, y_test),
+          validation_data=(X_test_norm, y_test),
           )
 
 final_acc=int(trained_model.history['accuracy'][-1]*100)
