@@ -9,7 +9,7 @@ from keras.models import Sequential
 count=1
 
 filt=64
-epoch=2
+epoch=1
 unit=100
 
 def data():
