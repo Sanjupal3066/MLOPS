@@ -7,8 +7,8 @@ from keras.layers import Dense
 from keras.models import Sequential
 
 
-filt=64
-epoch=1
+filt=80
+epoch=2
 unit=100
 
 def data():
