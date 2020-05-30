@@ -6,8 +6,9 @@ from keras.layers import Flatten
 from keras.layers import Dense
 from keras.models import Sequential
 
+count=1
 
-filt=80
+filt=64
 epoch=2
 unit=100
 
@@ -24,9 +25,6 @@ def data():
 def create_model(f,u):
 	model = Sequential()
 	model.add(Convolution2D(filters=f, kernel_size=(3, 3), activation='relu', input_shape=(28, 28, 1)))
-	f=int(f/2)
-	model.add(MaxPooling2D(pool_size=(2, 2)))
-	model.add(Convolution2D(filters=f, kernel_size=(3, 3), activation='relu'))
 	f=int(f/2)
 	model.add(MaxPooling2D(pool_size=(2, 2)))
 	model.add(Flatten())
