@@ -38,6 +38,7 @@ def create_model(f,u):
 
 X_train_norm,y_train,X_test_norm,y_test = data()
 model=create_model(filt,unit)
+print(model.summary())
 
 trained_model = model.fit(X_train_norm, y_train,
          epochs=epoch,batch_size=32,
